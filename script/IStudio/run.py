@@ -52,22 +52,9 @@ class Debugger:
         self.interp.setdebugger(self);
         self.frame = None
         self.interacting = 0
-
-        self.save_stdout = sys.stdout
-        self.save_stderr = sys.stderr
-        #self.save_stdin = sys.stdin
-
-        self.stdout = PYRunOutput(0)
-        self.stderr = PYRunOutput(1)
-        sys.stdout = self.stdout
-        sys.stderr = self.stderr
-        #sys.stdin = self.stdin
    
     def close(self):
         self.idb.set_quit()
-        sys.stdout = self.save_stdout
-        sys.stderr = self.save_stderr
-        #sys.stdin = self.save_stdin
         return
      
     def start(self, filename):
@@ -292,6 +279,13 @@ class Debugger:
         return _runconsole.IsBreakPoint(name, lineno)
 
 def main(filename, mode):
+    save_stdout = sys.stdout
+    save_stderr = sys.stderr
+    #save_stdin = sys.stdin
+    sys.stdout = PYRunOutput(0)
+    sys.stderr = PYRunOutput(1)
+    #sys.stdin = self.stdin
+    print(sys.argv)
     if(mode == '-d'):
         _runconsole.DebugStart()
         debugrun = Debugger()
@@ -301,11 +295,18 @@ def main(filename, mode):
         print("Running...")
         interp = ip.PYInterpreter()
         interp.execfile(filename)
+    sys.stdout = save_stdout
+    sys.stderr = save_stderr
+    #sys.stdin = save_stdin
 
 if __name__ == "__main__":
-    if len (sys.argv) == 3:
+    if len (sys.argv) >= 3:
         sys.path.append(os.path.dirname(sys.argv[1]))
         path0, filename0 = os.path.split(sys.argv[0])
         path1, filename1 = os.path.split(path0)
         sys.path.append(path1)
-        main(sys.argv[1], sys.argv[2])
+        rfile = sys.argv[1]
+        mode = sys.argv[2]
+        del sys.argv[2]
+        del sys.argv[0]
+        main(rfile, mode)
