@@ -166,6 +166,13 @@ annotation1.SetCaptionLocation(15, 2.5)
 annotation1.SetCaptionColor(vi.MakeColor(0, 0, 0))
 annotation1.SetCaptionBorder(vi.PLineType.LineType_Solid, vi.MakeColor(255, 0, 255),2, 10)
 
+for i in range(anncount):
+    graph2.RemoveAnnotation("a2")
+annotation2 = graph2.AddAnnotation("a2")
+circle = annotation2.SetDrawType( vi.PDrawItemType.DrawItem_Circle )
+circle.SetFillColor(vi.MakeColor(255, 0, 0))
+circle.SetCoordinates(45, 0, 0)
+
 plotnum = graph2.GetPlotCount()
 if plotnum < 1:
     plot = graph.NewPlot("sin")

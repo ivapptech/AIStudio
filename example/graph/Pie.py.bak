@@ -68,7 +68,7 @@ def PieAnimation():
         pie3D.SetPlotStyle(  vi.PPlotStyle.PiePie3D )
     else:
         pie2D.SetPlotStyle( vi.PPlotStyle.PieDoughnut )
-        pie3D.SetPlotStyle( vi.PPlotStyle.PieDoughnut3D  )
+        pie3D.SetPlotStyle( vi.PPlotStyle.PieDoughnut3D )
        
 while (timercount < 20):
     PieAnimation()
